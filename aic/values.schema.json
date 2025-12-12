@@ -1,111 +1,138 @@
 {
+  "title": "Banking Product Configuration",
+  "type": "object",
+  "order": ["product", "limits", "compliance", "integration"],
   "properties": {
-    "general": {
+    "product": {
       "type": "object",
-      "title": "General",
+      "title": "Product Definition",
+      "order": ["productType", "currency", "interestRate", "fees"],
       "properties": {
-        "image": {
-          "title": "App image",
-          "type": "string",
-          "description": "Application image"
-        },
-        "version": {
-          "title": "Image version",
-          "type": "string",
-          "description": "Image tag you want to deploy"
-        },
-        "environment": {
-          "title": "Environment variables",
-          "type": "object",
-          "description": "Set environment variables"
-        }
-      },
-      "required": [
-        "image",
-        "version"
-      ],
-      "order": [
-        "image",
-        "version",
-        "environment"
-      ]
-    },
-    "scaling": {
-      "type": "object",
-      "title": "Scaling",
-      "properties": {
-        "replicas": {
-          "title": "Replicas",
-          "type": "integer",
-          "description": "Number of instances you want to deploy",
-          "minimum": 0
-        },
-        "resources": {
-          "type": "object",
-          "title": "Resources",
-          "properties": {
-            "cpu": {
-              "title": "CPUs",
-              "type": "integer",
-              "description": "Number of CPUs your applications needs"
-            },
-            "memory": {
-              "title": "Memory",
-              "description": "Measured in Gi",
-              "type": "integer"
-            }
-          },
-          "order": [
-            "cpu",
-            "memory"
-          ]
-        }
-      },
-      "required": [
-        "replicas"
-      ],
-      "order": [
-        "replicas",
-        "resources"
-      ]
-    },
-    "networking": {
-      "type": "object",
-      "title": "Networking",
-      "properties": {
-        "expose": {
-          "title": "Expose",
-          "type": "boolean",
-          "description": "Create a Service for your application"
-        },
-        "type": {
-          "title": "Service Type",
+        "productType": {
+          "title": "Product Type",
           "type": "string",
           "enum": [
-            "ClusterIP",
-            "NodePort",
-            "LoadBalancer"
+            "CurrentAccount",
+            "SavingsAccount",
+            "TermDeposit",
+            "CreditCard",
+            "Loan"
           ],
-          "description": "Specify the type of Service to create."
+          "description": "Choose the type of banking product."
         },
-        "port": {
-          "title": "Port",
-          "type": "integer",
-          "description": "Port to expose for your application"
+        "currency": {
+          "title": "Currency",
+          "type": "string",
+          "enum": ["EUR", "USD", "GBP", "CHF"],
+          "description": "Currency in which this product operates."
+        },
+        "interestRate": {
+          "title": "Interest Rate (%)",
+          "type": "number",
+          "description": "Interest rate applied to the product."
+        },
+        "fees": {
+          "title": "Fees",
+          "type": "object",
+          "order": ["monthlyFee", "transactionFee"],
+          "properties": {
+            "monthlyFee": {
+              "title": "Monthly Maintenance Fee",
+              "type": "number"
+            },
+            "transactionFee": {
+              "title": "Transaction Fee",
+              "type": "number",
+              "description": "Fee applied per transaction."
+            }
+          }
         }
       },
-      "order": [
-        "expose",
-        "type",
-        "port"
-      ]
+      "required": ["productType", "currency"]
+    },
+
+    "limits": {
+      "type": "object",
+      "title": "Limits & Thresholds",
+      "order": ["dailyLimit", "monthlyLimit", "overdraftAllowed"],
+      "properties": {
+        "dailyLimit": {
+          "title": "Daily Transaction Limit",
+          "type": "number",
+          "description": "Maximum amount allowed per day."
+        },
+        "monthlyLimit": {
+          "title": "Monthly Transaction Limit",
+          "type": "number",
+          "description": "Maximum amount allowed per month."
+        },
+        "overdraftAllowed": {
+          "title": "Overdraft Allowed",
+          "type": "boolean",
+          "description": "Specify if overdraft is permitted (for account products)."
+        }
+      }
+    },
+
+    "compliance": {
+      "type": "object",
+      "title": "Compliance & KYC",
+      "order": ["kycRequired", "riskCategory", "pepCheck"],
+      "properties": {
+        "kycRequired": {
+          "title": "KYC Required",
+          "type": "boolean",
+          "description": "Whether full KYC must be completed before activation."
+        },
+        "riskCategory": {
+          "title": "Risk Category",
+          "type": "string",
+          "enum": ["Low", "Medium", "High"],
+          "description": "Risk classification used for AML scoring."
+        },
+        "pepCheck": {
+          "title": "PEP Screening",
+          "type": "boolean",
+          "description": "Whether Politically Exposed Person screening is mandatory."
+        }
+      }
+    },
+
+    "integration": {
+      "type": "object",
+      "title": "Backend Integration",
+      "order": ["coreBankingSystem", "notifications", "webhooks"],
+      "properties": {
+        "coreBankingSystem": {
+          "title": "Core Banking System",
+          "type": "string",
+          "enum": ["Temenos", "Mambu", "FIS", "Custom"],
+          "description": "Which backend system to integrate with."
+        },
+        "notifications": {
+          "title": "Notifications",
+          "type": "object",
+          "order": ["smsEnabled", "emailEnabled"],
+          "properties": {
+            "smsEnabled": {
+              "title": "SMS Notifications",
+              "type": "boolean"
+            },
+            "emailEnabled": {
+              "title": "Email Notifications",
+              "type": "boolean"
+            }
+          }
+        },
+        "webhooks": {
+          "title": "Webhooks",
+          "type": "array",
+          "description": "List of webhook endpoints to notify for product events.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     }
-  },
-  "order": [
-    "general",
-    "scaling",
-    "networking"
-  ],
-  "title": "Values",
-  "type": "object"
+  }
 }

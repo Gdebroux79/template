@@ -4,11 +4,5 @@ description: AIC delivery bundle
 name: aic
 
 dependencies:
-  - name: sbcp-spring-configuration
-    version: 0.7.6
-    repository: "@commons"
-  - name: service-account-interest-calculation
-    version: 0.15.0-RC1
-    repository: "@apps"
-    condition: service-account-interest-calculation.enabled
+
   
