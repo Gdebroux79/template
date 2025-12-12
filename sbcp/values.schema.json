@@ -30,13 +30,1355 @@
       } ]
     },
     "training-quiz" : {
-      "properties" : {
-        "enabled" : {
-          "title" : "Enable training-quiz dependency (@apps/training-quiz:2.1.0)",
-          "description" : "\n\\n",
-          "type" : "boolean"
-        }
-      },
+                        "properties" : {
+                          "spring" : {
+                            "properties" : {
+                              "configMaps" : {
+                                "properties" : {
+                                  "training-quiz" : {
+                                    "title" : "Helm configuration for version 2.1.0 of training-quiz service",
+                                    "description" : "\n\\n Configuration deployed in training-quiz configMap and loaded by training-quiz service",
+                                    "properties" : {
+                                      "international" : {
+                                        "title" : "International section (managed by R&D)",
+                                        "description" : "\n\\n",
+                                        "properties" : {
+                                          "assessment" : {
+                                            "properties" : {
+                                              "back-off" : {
+                                                "type" : "object",
+                                                "properties" : {
+                                                  "initial" : {
+                                                    "type" : "string"
+                                                  },
+                                                  "max" : {
+                                                    "type" : "string"
+                                                  },
+                                                  "multiplier" : {
+                                                    "type" : "number"
+                                                  }
+                                                },
+                                                "additionalProperties" : false,
+                                                "title" : " Backoff configuration for delays between 2 consecutive assessments\n",
+                                                "description" : "\n\\n"
+                                              },
+                                              "cleanup" : {
+                                                "type" : "object",
+                                                "properties" : {
+                                                  "buffer-size" : {
+                                                    "type" : "integer"
+                                                  },
+                                                  "intermediate-commit-size" : {
+                                                    "type" : "integer"
+                                                  },
+                                                  "threshold" : {
+                                                    "type" : "string"
+                                                  }
+                                                },
+                                                "additionalProperties" : false,
+                                                "title" : " Assessment cleanup configuration\n",
+                                                "description" : "\n\\n"
+                                              },
+                                              "topics" : {
+                                                "type" : "object",
+                                                "properties" : {
+                                                  "assessment-cleanup" : {
+                                                    "type" : "string"
+                                                  },
+                                                  "assessment-cleanup-processed" : {
+                                                    "type" : "string"
+                                                  },
+                                                  "assessment-completed" : {
+                                                    "type" : "string"
+                                                  },
+                                                  "batch-cancellation" : {
+                                                    "type" : "string"
+                                                  },
+                                                  "batch-trigger" : {
+                                                    "type" : "string"
+                                                  },
+                                                  "batch-trigger-processed" : {
+                                                    "type" : "string"
+                                                  }
+                                                },
+                                                "additionalProperties" : false,
+                                                "title" : " Kafka topics configuration\n",
+                                                "description" : "\n\\n"
+                                              }
+                                            },
+                                            "additionalProperties" : false
+                                          },
+                                          "dataset" : {
+                                            "properties" : {
+                                              "assessment" : {
+                                                "type" : "object",
+                                                "properties" : {
+                                                  "count" : {
+                                                    "type" : "integer"
+                                                  },
+                                                  "count-batch-size" : {
+                                                    "type" : "integer"
+                                                  },
+                                                  "data" : {
+                                                    "type" : "array",
+                                                    "items" : {
+                                                      "type" : "object",
+                                                      "properties" : {
+                                                        "created-at" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "created-by" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "id" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "last-modified-at" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "last-modified-by" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "owner" : {
+                                                          "type" : "string",
+                                                          "title" : " Username of the owner\n",
+                                                          "description" : "\n\\n"
+                                                        },
+                                                        "quiz" : {
+                                                          "type" : "object",
+                                                          "properties" : {
+                                                            "configuration" : {
+                                                              "type" : "object",
+                                                              "properties" : {
+                                                                "max-questions" : {
+                                                                  "type" : "integer",
+                                                                  "title" : " Indicates the maximum number of questions that cannot be exceeded when running a quiz\n",
+                                                                  "description" : "\n\\n"
+                                                                },
+                                                                "shuffle" : {
+                                                                  "type" : "boolean",
+                                                                  "title" : " Indicates if the questions should be shuffled\n",
+                                                                  "description" : "\n\\n"
+                                                                }
+                                                              },
+                                                              "additionalProperties" : false,
+                                                              "title" : " Object containing quiz configuration\n",
+                                                              "description" : "\n\\n"
+                                                            },
+                                                            "created-at" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "created-by" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "description" : {
+                                                              "type" : "string",
+                                                              "title" : " Description explaining what the quiz is assessing\n",
+                                                              "description" : "\n\\n"
+                                                            },
+                                                            "id" : {
+                                                              "type" : "string",
+                                                              "title" : " Quiz unique identifier\n",
+                                                              "description" : "\n\\n"
+                                                            },
+                                                            "last-modified-at" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "last-modified-by" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "module" : {
+                                                              "type" : "string",
+                                                              "title" : " Module related to the quiz\n",
+                                                              "description" : "\n\\n"
+                                                            },
+                                                            "questions" : {
+                                                              "type" : "array",
+                                                              "items" : {
+                                                                "type" : "object",
+                                                                "properties" : {
+                                                                  "answer-options" : {
+                                                                    "type" : "array",
+                                                                    "items" : {
+                                                                      "type" : "object",
+                                                                      "properties" : {
+                                                                        "id" : {
+                                                                          "type" : "string",
+                                                                          "title" : " Indicates if the option is valid\n",
+                                                                          "description" : "\n\\n"
+                                                                        },
+                                                                        "label" : {
+                                                                          "type" : "string"
+                                                                        },
+                                                                        "valid" : {
+                                                                          "type" : "boolean",
+                                                                          "title" : " Indicates if the option is valid\n",
+                                                                          "description" : "\n\\n"
+                                                                        }
+                                                                      },
+                                                                      "additionalProperties" : false
+                                                                    },
+                                                                    "title" : " Array containing the different possible answer options for the question\n",
+                                                                    "description" : "\n\\n"
+                                                                  },
+                                                                  "configuration" : {
+                                                                    "type" : "object",
+                                                                    "properties" : {
+                                                                      "code" : {
+                                                                        "type" : "boolean",
+                                                                        "title" : " Indicates if the label should be formatted as code\n",
+                                                                        "description" : "\n\\n"
+                                                                      },
+                                                                      "duration" : {
+                                                                        "type" : "string",
+                                                                        "title" : " Question's maximum duration using ISO_8601 format\n",
+                                                                        "description" : "\n\\n"
+                                                                      },
+                                                                      "shuffle" : {
+                                                                        "type" : "boolean"
+                                                                      }
+                                                                    },
+                                                                    "additionalProperties" : false
+                                                                  },
+                                                                  "explanation" : {
+                                                                    "type" : "string",
+                                                                    "title" : " Answer explanation\n",
+                                                                    "description" : "\n\\n"
+                                                                  },
+                                                                  "id" : {
+                                                                    "type" : "string"
+                                                                  },
+                                                                  "label" : {
+                                                                    "type" : "string",
+                                                                    "title" : " Question's label\n",
+                                                                    "description" : "\n\\n"
+                                                                  },
+                                                                  "level" : {
+                                                                    "$ref" : "#/$defs/downloads/repository/json-schemas/apps/training-quiz/2.1.0/helm-values.json/$defs/SkillLevel",
+                                                                    "title" : " Question's skill level\n",
+                                                                    "description" : "\n\\n"
+                                                                  },
+                                                                  "offered-answer" : {
+                                                                    "type" : "object",
+                                                                    "properties" : {
+                                                                      "answers-id" : {
+                                                                        "type" : "array",
+                                                                        "items" : {
+                                                                          "type" : "string"
+                                                                        },
+                                                                        "title" : " Array of answer option unique IDs offered to a question\n",
+                                                                        "description" : "\n\\n"
+                                                                      }
+                                                                    },
+                                                                    "additionalProperties" : false,
+                                                                    "title" : " Answer offered to the question\n",
+                                                                    "description" : "\n\\n"
+                                                                  }
+                                                                },
+                                                                "additionalProperties" : false
+                                                              },
+                                                              "title" : " Array containing quiz questions\n",
+                                                              "description" : "\n\\n"
+                                                            },
+                                                            "status" : {
+                                                              "$ref" : "#/$defs/downloads/repository/json-schemas/apps/training-quiz/2.1.0/helm-values.json/$defs/ReleaseStatus",
+                                                              "title" : " Release status\n",
+                                                              "description" : "\n\\n"
+                                                            }
+                                                          },
+                                                          "additionalProperties" : false,
+                                                          "title" : " Quiz assessment underway\n",
+                                                          "description" : "\n\\n"
+                                                        },
+                                                        "stats" : {
+                                                          "type" : "object",
+                                                          "properties" : {
+                                                            "attempts" : {
+                                                              "type" : "integer"
+                                                            },
+                                                            "best-score" : {
+                                                              "type" : "integer"
+                                                            },
+                                                            "last-attempt" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "lock" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "score" : {
+                                                              "type" : "integer"
+                                                            }
+                                                          },
+                                                          "additionalProperties" : false,
+                                                          "title" : " Assessment statistics return when quiz is terminated\n",
+                                                          "description" : "\n\\n"
+                                                        }
+                                                      },
+                                                      "additionalProperties" : false
+                                                    }
+                                                  },
+                                                  "load-method" : {
+                                                    "type" : "string",
+                                                    "enum" : [ "DATA", "COUNT" ]
+                                                  },
+                                                  "mode" : {
+                                                    "$ref" : "#/$defs/downloads/repository/json-schemas/apps/training-quiz/2.1.0/helm-values.json/$defs/Mode"
+                                                  },
+                                                  "quiz-id" : {
+                                                    "type" : "string"
+                                                  }
+                                                },
+                                                "additionalProperties" : false,
+                                                "title" : " Dataset for assessments collection in training-quiz\n",
+                                                "description" : "\n\\n"
+                                              },
+                                              "quiz" : {
+                                                "type" : "object",
+                                                "properties" : {
+                                                  "data" : {
+                                                    "type" : "array",
+                                                    "items" : {
+                                                      "type" : "object",
+                                                      "properties" : {
+                                                        "configuration" : {
+                                                          "type" : "object",
+                                                          "properties" : {
+                                                            "duration" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "max-questions" : {
+                                                              "type" : "integer"
+                                                            },
+                                                            "shuffle" : {
+                                                              "type" : "boolean"
+                                                            },
+                                                            "total-questions" : {
+                                                              "type" : "integer",
+                                                              "title" : " Total number of questions assigned to a quiz\n",
+                                                              "description" : "\n\\n"
+                                                            }
+                                                          },
+                                                          "additionalProperties" : false
+                                                        },
+                                                        "description" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "id" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "module" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "questions" : {
+                                                          "type" : "array",
+                                                          "items" : {
+                                                            "type" : "object",
+                                                            "properties" : {
+                                                              "answer-options" : {
+                                                                "type" : "array",
+                                                                "items" : {
+                                                                  "type" : "object",
+                                                                  "properties" : {
+                                                                    "id" : {
+                                                                      "type" : "string"
+                                                                    },
+                                                                    "label" : {
+                                                                      "type" : "string"
+                                                                    },
+                                                                    "valid" : {
+                                                                      "type" : "boolean"
+                                                                    }
+                                                                  },
+                                                                  "additionalProperties" : false
+                                                                }
+                                                              },
+                                                              "configuration" : {
+                                                                "type" : "object",
+                                                                "properties" : {
+                                                                  "code" : {
+                                                                    "type" : "boolean"
+                                                                  },
+                                                                  "duration" : {
+                                                                    "type" : "string"
+                                                                  },
+                                                                  "shuffle" : {
+                                                                    "type" : "boolean"
+                                                                  }
+                                                                },
+                                                                "additionalProperties" : false
+                                                              },
+                                                              "explanation" : {
+                                                                "type" : "string"
+                                                              },
+                                                              "id" : {
+                                                                "type" : "string"
+                                                              },
+                                                              "label" : {
+                                                                "type" : "string"
+                                                              },
+                                                              "level" : {
+                                                                "$ref" : "#/$defs/downloads/repository/json-schemas/apps/training-quiz/2.1.0/helm-values.json/$defs/SkillLevel"
+                                                              },
+                                                              "results" : {
+                                                                "type" : "array",
+                                                                "items" : {
+                                                                  "type" : "object",
+                                                                  "properties" : {
+                                                                    "id" : {
+                                                                      "type" : "string"
+                                                                    },
+                                                                    "status" : {
+                                                                      "type" : "string",
+                                                                      "enum" : [ "VALID", "WRONG", "MISSING" ]
+                                                                    }
+                                                                  },
+                                                                  "additionalProperties" : false
+                                                                },
+                                                                "title" : " Array containing the answer given by a user\n",
+                                                                "description" : "\n\\n"
+                                                              },
+                                                              "valid-percent" : {
+                                                                "type" : "integer",
+                                                                "title" : " Valid answer percentage\n",
+                                                                "description" : "\n\\n"
+                                                              }
+                                                            },
+                                                            "additionalProperties" : false
+                                                          }
+                                                        },
+                                                        "status" : {
+                                                          "$ref" : "#/$defs/downloads/repository/json-schemas/apps/training-quiz/2.1.0/helm-values.json/$defs/ReleaseStatus"
+                                                        }
+                                                      },
+                                                      "additionalProperties" : false
+                                                    }
+                                                  },
+                                                  "mode" : {
+                                                    "$ref" : "#/$defs/downloads/repository/json-schemas/apps/training-quiz/2.1.0/helm-values.json/$defs/Mode"
+                                                  }
+                                                },
+                                                "additionalProperties" : false
+                                              }
+                                            },
+                                            "additionalProperties" : false
+                                          },
+                                          "exit" : {
+                                            "properties" : {
+                                              "best-score" : {
+                                                "type" : "object",
+                                                "properties" : {
+                                                  "enabled" : {
+                                                    "type" : "boolean",
+                                                    "title" : " Enable exit point for computation of best score by REST API",
+                                                    "description" : "\n\\n When enabled, exit point for computation of best score is enabled in training-quiz. REST client [ExitClient] must be configured to call external custom microservice either with property `exit.service-name` or `exit.url`."
+                                                  }
+                                                },
+                                                "additionalProperties" : false,
+                                                "title" : " Exit point for computation of best score",
+                                                "description" : "\n\\n"
+                                              },
+                                              "service-name" : {
+                                                "type" : "string",
+                                                "title" : " Service name for exit points",
+                                                "description" : "\n\\n Property is used to configure service name in REST client [ExitClient]."
+                                              },
+                                              "url" : {
+                                                "type" : "string",
+                                                "title" : " Optional URL for exit points",
+                                                "description" : "\n\\n It allows to supersede service name in configuration of REST client [ExitClient]."
+                                              }
+                                            },
+                                            "additionalProperties" : false
+                                          }
+                                        },
+                                        "additionalProperties" : false
+                                      },
+                                      "localization" : {
+                                        "title" : "Localization section (has precedence on international)",
+                                        "description" : "\n\\n",
+                                        "properties" : {
+                                          "assessment" : {
+                                            "properties" : {
+                                              "back-off" : {
+                                                "type" : "object",
+                                                "properties" : {
+                                                  "initial" : {
+                                                    "type" : "string"
+                                                  },
+                                                  "max" : {
+                                                    "type" : "string"
+                                                  },
+                                                  "multiplier" : {
+                                                    "type" : "number"
+                                                  }
+                                                },
+                                                "additionalProperties" : false,
+                                                "title" : " Backoff configuration for delays between 2 consecutive assessments\n",
+                                                "description" : "\n\\n"
+                                              },
+                                              "cleanup" : {
+                                                "type" : "object",
+                                                "properties" : {
+                                                  "buffer-size" : {
+                                                    "type" : "integer"
+                                                  },
+                                                  "intermediate-commit-size" : {
+                                                    "type" : "integer"
+                                                  },
+                                                  "threshold" : {
+                                                    "type" : "string"
+                                                  }
+                                                },
+                                                "additionalProperties" : false,
+                                                "title" : " Assessment cleanup configuration\n",
+                                                "description" : "\n\\n"
+                                              },
+                                              "topics" : {
+                                                "type" : "object",
+                                                "properties" : {
+                                                  "assessment-completed" : {
+                                                    "type" : "string"
+                                                  }
+                                                },
+                                                "additionalProperties" : false,
+                                                "title" : " Kafka topics configuration\n",
+                                                "description" : "\n\\n"
+                                              }
+                                            },
+                                            "additionalProperties" : false
+                                          },
+                                          "dataset" : {
+                                            "properties" : {
+                                              "assessment" : {
+                                                "type" : "object",
+                                                "properties" : {
+                                                  "count" : {
+                                                    "type" : "integer"
+                                                  },
+                                                  "count-batch-size" : {
+                                                    "type" : "integer"
+                                                  },
+                                                  "data" : {
+                                                    "type" : "array",
+                                                    "items" : {
+                                                      "type" : "object",
+                                                      "properties" : {
+                                                        "created-at" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "created-by" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "id" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "last-modified-at" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "last-modified-by" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "owner" : {
+                                                          "type" : "string",
+                                                          "title" : " Username of the owner\n",
+                                                          "description" : "\n\\n"
+                                                        },
+                                                        "quiz" : {
+                                                          "type" : "object",
+                                                          "properties" : {
+                                                            "configuration" : {
+                                                              "type" : "object",
+                                                              "properties" : {
+                                                                "max-questions" : {
+                                                                  "type" : "integer",
+                                                                  "title" : " Indicates the maximum number of questions that cannot be exceeded when running a quiz\n",
+                                                                  "description" : "\n\\n"
+                                                                },
+                                                                "shuffle" : {
+                                                                  "type" : "boolean",
+                                                                  "title" : " Indicates if the questions should be shuffled\n",
+                                                                  "description" : "\n\\n"
+                                                                }
+                                                              },
+                                                              "additionalProperties" : false,
+                                                              "title" : " Object containing quiz configuration\n",
+                                                              "description" : "\n\\n"
+                                                            },
+                                                            "created-at" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "created-by" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "description" : {
+                                                              "type" : "string",
+                                                              "title" : " Description explaining what the quiz is assessing\n",
+                                                              "description" : "\n\\n"
+                                                            },
+                                                            "id" : {
+                                                              "type" : "string",
+                                                              "title" : " Quiz unique identifier\n",
+                                                              "description" : "\n\\n"
+                                                            },
+                                                            "last-modified-at" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "last-modified-by" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "module" : {
+                                                              "type" : "string",
+                                                              "title" : " Module related to the quiz\n",
+                                                              "description" : "\n\\n"
+                                                            },
+                                                            "questions" : {
+                                                              "type" : "array",
+                                                              "items" : {
+                                                                "type" : "object",
+                                                                "properties" : {
+                                                                  "answer-options" : {
+                                                                    "type" : "array",
+                                                                    "items" : {
+                                                                      "type" : "object",
+                                                                      "properties" : {
+                                                                        "id" : {
+                                                                          "type" : "string",
+                                                                          "title" : " Indicates if the option is valid\n",
+                                                                          "description" : "\n\\n"
+                                                                        },
+                                                                        "label" : {
+                                                                          "type" : "string"
+                                                                        },
+                                                                        "valid" : {
+                                                                          "type" : "boolean",
+                                                                          "title" : " Indicates if the option is valid\n",
+                                                                          "description" : "\n\\n"
+                                                                        }
+                                                                      },
+                                                                      "additionalProperties" : false
+                                                                    },
+                                                                    "title" : " Array containing the different possible answer options for the question\n",
+                                                                    "description" : "\n\\n"
+                                                                  },
+                                                                  "configuration" : {
+                                                                    "type" : "object",
+                                                                    "properties" : {
+                                                                      "code" : {
+                                                                        "type" : "boolean",
+                                                                        "title" : " Indicates if the label should be formatted as code\n",
+                                                                        "description" : "\n\\n"
+                                                                      },
+                                                                      "duration" : {
+                                                                        "type" : "string",
+                                                                        "title" : " Question's maximum duration using ISO_8601 format\n",
+                                                                        "description" : "\n\\n"
+                                                                      },
+                                                                      "shuffle" : {
+                                                                        "type" : "boolean"
+                                                                      }
+                                                                    },
+                                                                    "additionalProperties" : false
+                                                                  },
+                                                                  "explanation" : {
+                                                                    "type" : "string",
+                                                                    "title" : " Answer explanation\n",
+                                                                    "description" : "\n\\n"
+                                                                  },
+                                                                  "id" : {
+                                                                    "type" : "string"
+                                                                  },
+                                                                  "label" : {
+                                                                    "type" : "string",
+                                                                    "title" : " Question's label\n",
+                                                                    "description" : "\n\\n"
+                                                                  },
+                                                                  "level" : {
+                                                                    "$ref" : "#/$defs/downloads/repository/json-schemas/apps/training-quiz/2.1.0/helm-values.json/$defs/SkillLevel",
+                                                                    "title" : " Question's skill level\n",
+                                                                    "description" : "\n\\n"
+                                                                  },
+                                                                  "offered-answer" : {
+                                                                    "type" : "object",
+                                                                    "properties" : {
+                                                                      "answers-id" : {
+                                                                        "type" : "array",
+                                                                        "items" : {
+                                                                          "type" : "string"
+                                                                        },
+                                                                        "title" : " Array of answer option unique IDs offered to a question\n",
+                                                                        "description" : "\n\\n"
+                                                                      }
+                                                                    },
+                                                                    "additionalProperties" : false,
+                                                                    "title" : " Answer offered to the question\n",
+                                                                    "description" : "\n\\n"
+                                                                  }
+                                                                },
+                                                                "additionalProperties" : false
+                                                              },
+                                                              "title" : " Array containing quiz questions\n",
+                                                              "description" : "\n\\n"
+                                                            },
+                                                            "status" : {
+                                                              "$ref" : "#/$defs/downloads/repository/json-schemas/apps/training-quiz/2.1.0/helm-values.json/$defs/ReleaseStatus",
+                                                              "title" : " Release status\n",
+                                                              "description" : "\n\\n"
+                                                            }
+                                                          },
+                                                          "additionalProperties" : false,
+                                                          "title" : " Quiz assessment underway\n",
+                                                          "description" : "\n\\n"
+                                                        },
+                                                        "stats" : {
+                                                          "type" : "object",
+                                                          "properties" : {
+                                                            "attempts" : {
+                                                              "type" : "integer"
+                                                            },
+                                                            "best-score" : {
+                                                              "type" : "integer"
+                                                            },
+                                                            "last-attempt" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "lock" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "score" : {
+                                                              "type" : "integer"
+                                                            }
+                                                          },
+                                                          "additionalProperties" : false,
+                                                          "title" : " Assessment statistics return when quiz is terminated\n",
+                                                          "description" : "\n\\n"
+                                                        }
+                                                      },
+                                                      "additionalProperties" : false
+                                                    }
+                                                  },
+                                                  "load-method" : {
+                                                    "type" : "string",
+                                                    "enum" : [ "DATA", "COUNT" ]
+                                                  },
+                                                  "mode" : {
+                                                    "$ref" : "#/$defs/downloads/repository/json-schemas/apps/training-quiz/2.1.0/helm-values.json/$defs/Mode"
+                                                  },
+                                                  "quiz-id" : {
+                                                    "type" : "string"
+                                                  }
+                                                },
+                                                "additionalProperties" : false,
+                                                "title" : " Dataset for assessments collection in training-quiz\n",
+                                                "description" : "\n\\n"
+                                              },
+                                              "quiz" : {
+                                                "type" : "object",
+                                                "properties" : {
+                                                  "data" : {
+                                                    "type" : "array",
+                                                    "items" : {
+                                                      "type" : "object",
+                                                      "properties" : {
+                                                        "configuration" : {
+                                                          "type" : "object",
+                                                          "properties" : {
+                                                            "duration" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "max-questions" : {
+                                                              "type" : "integer"
+                                                            },
+                                                            "shuffle" : {
+                                                              "type" : "boolean"
+                                                            },
+                                                            "total-questions" : {
+                                                              "type" : "integer",
+                                                              "title" : " Total number of questions assigned to a quiz\n",
+                                                              "description" : "\n\\n"
+                                                            }
+                                                          },
+                                                          "additionalProperties" : false
+                                                        },
+                                                        "description" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "id" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "module" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "questions" : {
+                                                          "type" : "array",
+                                                          "items" : {
+                                                            "type" : "object",
+                                                            "properties" : {
+                                                              "answer-options" : {
+                                                                "type" : "array",
+                                                                "items" : {
+                                                                  "type" : "object",
+                                                                  "properties" : {
+                                                                    "id" : {
+                                                                      "type" : "string"
+                                                                    },
+                                                                    "label" : {
+                                                                      "type" : "string"
+                                                                    },
+                                                                    "valid" : {
+                                                                      "type" : "boolean"
+                                                                    }
+                                                                  },
+                                                                  "additionalProperties" : false
+                                                                }
+                                                              },
+                                                              "configuration" : {
+                                                                "type" : "object",
+                                                                "properties" : {
+                                                                  "code" : {
+                                                                    "type" : "boolean"
+                                                                  },
+                                                                  "duration" : {
+                                                                    "type" : "string"
+                                                                  },
+                                                                  "shuffle" : {
+                                                                    "type" : "boolean"
+                                                                  }
+                                                                },
+                                                                "additionalProperties" : false
+                                                              },
+                                                              "explanation" : {
+                                                                "type" : "string"
+                                                              },
+                                                              "id" : {
+                                                                "type" : "string"
+                                                              },
+                                                              "label" : {
+                                                                "type" : "string"
+                                                              },
+                                                              "level" : {
+                                                                "$ref" : "#/$defs/downloads/repository/json-schemas/apps/training-quiz/2.1.0/helm-values.json/$defs/SkillLevel"
+                                                              },
+                                                              "results" : {
+                                                                "type" : "array",
+                                                                "items" : {
+                                                                  "type" : "object",
+                                                                  "properties" : {
+                                                                    "id" : {
+                                                                      "type" : "string"
+                                                                    },
+                                                                    "status" : {
+                                                                      "type" : "string",
+                                                                      "enum" : [ "VALID", "WRONG", "MISSING" ]
+                                                                    }
+                                                                  },
+                                                                  "additionalProperties" : false
+                                                                },
+                                                                "title" : " Array containing the answer given by a user\n",
+                                                                "description" : "\n\\n"
+                                                              },
+                                                              "valid-percent" : {
+                                                                "type" : "integer",
+                                                                "title" : " Valid answer percentage\n",
+                                                                "description" : "\n\\n"
+                                                              }
+                                                            },
+                                                            "additionalProperties" : false
+                                                          }
+                                                        },
+                                                        "status" : {
+                                                          "$ref" : "#/$defs/downloads/repository/json-schemas/apps/training-quiz/2.1.0/helm-values.json/$defs/ReleaseStatus"
+                                                        }
+                                                      },
+                                                      "additionalProperties" : false
+                                                    }
+                                                  },
+                                                  "mode" : {
+                                                    "$ref" : "#/$defs/downloads/repository/json-schemas/apps/training-quiz/2.1.0/helm-values.json/$defs/Mode"
+                                                  }
+                                                },
+                                                "additionalProperties" : false
+                                              }
+                                            },
+                                            "additionalProperties" : false
+                                          },
+                                          "exit" : {
+                                            "properties" : {
+                                              "best-score" : {
+                                                "type" : "object",
+                                                "properties" : {
+                                                  "enabled" : {
+                                                    "type" : "boolean",
+                                                    "title" : " Enable exit point for computation of best score by REST API",
+                                                    "description" : "\n\\n When enabled, exit point for computation of best score is enabled in training-quiz. REST client [ExitClient] must be configured to call external custom microservice either with property `exit.service-name` or `exit.url`."
+                                                  }
+                                                },
+                                                "additionalProperties" : false,
+                                                "title" : " Exit point for computation of best score",
+                                                "description" : "\n\\n"
+                                              },
+                                              "service-name" : {
+                                                "type" : "string",
+                                                "title" : " Service name for exit points",
+                                                "description" : "\n\\n Property is used to configure service name in REST client [ExitClient]."
+                                              },
+                                              "url" : {
+                                                "type" : "string",
+                                                "title" : " Optional URL for exit points",
+                                                "description" : "\n\\n It allows to supersede service name in configuration of REST client [ExitClient]."
+                                              }
+                                            },
+                                            "additionalProperties" : false
+                                          }
+                                        },
+                                        "additionalProperties" : false
+                                      },
+                                      "customization" : {
+                                        "title" : "Customization section (has precedence on international and localization)",
+                                        "description" : "\n\\n",
+                                        "properties" : {
+                                          "assessment" : {
+                                            "properties" : {
+                                              "back-off" : {
+                                                "type" : "object",
+                                                "properties" : {
+                                                  "initial" : {
+                                                    "type" : "string"
+                                                  },
+                                                  "max" : {
+                                                    "type" : "string"
+                                                  },
+                                                  "multiplier" : {
+                                                    "type" : "number"
+                                                  }
+                                                },
+                                                "additionalProperties" : false,
+                                                "title" : " Backoff configuration for delays between 2 consecutive assessments\n",
+                                                "description" : "\n\\n"
+                                              },
+                                              "cleanup" : {
+                                                "type" : "object",
+                                                "properties" : {
+                                                  "buffer-size" : {
+                                                    "type" : "integer"
+                                                  },
+                                                  "intermediate-commit-size" : {
+                                                    "type" : "integer"
+                                                  },
+                                                  "threshold" : {
+                                                    "type" : "string"
+                                                  }
+                                                },
+                                                "additionalProperties" : false,
+                                                "title" : " Assessment cleanup configuration\n",
+                                                "description" : "\n\\n"
+                                              },
+                                              "topics" : {
+                                                "type" : "object",
+                                                "properties" : {
+                                                  "assessment-completed" : {
+                                                    "type" : "string"
+                                                  }
+                                                },
+                                                "additionalProperties" : false,
+                                                "title" : " Kafka topics configuration\n",
+                                                "description" : "\n\\n"
+                                              }
+                                            },
+                                            "additionalProperties" : false
+                                          },
+                                          "dataset" : {
+                                            "properties" : {
+                                              "assessment" : {
+                                                "type" : "object",
+                                                "properties" : {
+                                                  "count" : {
+                                                    "type" : "integer"
+                                                  },
+                                                  "count-batch-size" : {
+                                                    "type" : "integer"
+                                                  },
+                                                  "data" : {
+                                                    "type" : "array",
+                                                    "items" : {
+                                                      "type" : "object",
+                                                      "properties" : {
+                                                        "created-at" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "created-by" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "id" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "last-modified-at" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "last-modified-by" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "owner" : {
+                                                          "type" : "string",
+                                                          "title" : " Username of the owner\n",
+                                                          "description" : "\n\\n"
+                                                        },
+                                                        "quiz" : {
+                                                          "type" : "object",
+                                                          "properties" : {
+                                                            "configuration" : {
+                                                              "type" : "object",
+                                                              "properties" : {
+                                                                "max-questions" : {
+                                                                  "type" : "integer",
+                                                                  "title" : " Indicates the maximum number of questions that cannot be exceeded when running a quiz\n",
+                                                                  "description" : "\n\\n"
+                                                                },
+                                                                "shuffle" : {
+                                                                  "type" : "boolean",
+                                                                  "title" : " Indicates if the questions should be shuffled\n",
+                                                                  "description" : "\n\\n"
+                                                                }
+                                                              },
+                                                              "additionalProperties" : false,
+                                                              "title" : " Object containing quiz configuration\n",
+                                                              "description" : "\n\\n"
+                                                            },
+                                                            "created-at" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "created-by" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "description" : {
+                                                              "type" : "string",
+                                                              "title" : " Description explaining what the quiz is assessing\n",
+                                                              "description" : "\n\\n"
+                                                            },
+                                                            "id" : {
+                                                              "type" : "string",
+                                                              "title" : " Quiz unique identifier\n",
+                                                              "description" : "\n\\n"
+                                                            },
+                                                            "last-modified-at" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "last-modified-by" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "module" : {
+                                                              "type" : "string",
+                                                              "title" : " Module related to the quiz\n",
+                                                              "description" : "\n\\n"
+                                                            },
+                                                            "questions" : {
+                                                              "type" : "array",
+                                                              "items" : {
+                                                                "type" : "object",
+                                                                "properties" : {
+                                                                  "answer-options" : {
+                                                                    "type" : "array",
+                                                                    "items" : {
+                                                                      "type" : "object",
+                                                                      "properties" : {
+                                                                        "id" : {
+                                                                          "type" : "string",
+                                                                          "title" : " Indicates if the option is valid\n",
+                                                                          "description" : "\n\\n"
+                                                                        },
+                                                                        "label" : {
+                                                                          "type" : "string"
+                                                                        },
+                                                                        "valid" : {
+                                                                          "type" : "boolean",
+                                                                          "title" : " Indicates if the option is valid\n",
+                                                                          "description" : "\n\\n"
+                                                                        }
+                                                                      },
+                                                                      "additionalProperties" : false
+                                                                    },
+                                                                    "title" : " Array containing the different possible answer options for the question\n",
+                                                                    "description" : "\n\\n"
+                                                                  },
+                                                                  "configuration" : {
+                                                                    "type" : "object",
+                                                                    "properties" : {
+                                                                      "code" : {
+                                                                        "type" : "boolean",
+                                                                        "title" : " Indicates if the label should be formatted as code\n",
+                                                                        "description" : "\n\\n"
+                                                                      },
+                                                                      "duration" : {
+                                                                        "type" : "string",
+                                                                        "title" : " Question's maximum duration using ISO_8601 format\n",
+                                                                        "description" : "\n\\n"
+                                                                      },
+                                                                      "shuffle" : {
+                                                                        "type" : "boolean"
+                                                                      }
+                                                                    },
+                                                                    "additionalProperties" : false
+                                                                  },
+                                                                  "explanation" : {
+                                                                    "type" : "string",
+                                                                    "title" : " Answer explanation\n",
+                                                                    "description" : "\n\\n"
+                                                                  },
+                                                                  "id" : {
+                                                                    "type" : "string"
+                                                                  },
+                                                                  "label" : {
+                                                                    "type" : "string",
+                                                                    "title" : " Question's label\n",
+                                                                    "description" : "\n\\n"
+                                                                  },
+                                                                  "level" : {
+                                                                    "$ref" : "#/$defs/downloads/repository/json-schemas/apps/training-quiz/2.1.0/helm-values.json/$defs/SkillLevel",
+                                                                    "title" : " Question's skill level\n",
+                                                                    "description" : "\n\\n"
+                                                                  },
+                                                                  "offered-answer" : {
+                                                                    "type" : "object",
+                                                                    "properties" : {
+                                                                      "answers-id" : {
+                                                                        "type" : "array",
+                                                                        "items" : {
+                                                                          "type" : "string"
+                                                                        },
+                                                                        "title" : " Array of answer option unique IDs offered to a question\n",
+                                                                        "description" : "\n\\n"
+                                                                      }
+                                                                    },
+                                                                    "additionalProperties" : false,
+                                                                    "title" : " Answer offered to the question\n",
+                                                                    "description" : "\n\\n"
+                                                                  }
+                                                                },
+                                                                "additionalProperties" : false
+                                                              },
+                                                              "title" : " Array containing quiz questions\n",
+                                                              "description" : "\n\\n"
+                                                            },
+                                                            "status" : {
+                                                              "$ref" : "#/$defs/downloads/repository/json-schemas/apps/training-quiz/2.1.0/helm-values.json/$defs/ReleaseStatus",
+                                                              "title" : " Release status\n",
+                                                              "description" : "\n\\n"
+                                                            }
+                                                          },
+                                                          "additionalProperties" : false,
+                                                          "title" : " Quiz assessment underway\n",
+                                                          "description" : "\n\\n"
+                                                        },
+                                                        "stats" : {
+                                                          "type" : "object",
+                                                          "properties" : {
+                                                            "attempts" : {
+                                                              "type" : "integer"
+                                                            },
+                                                            "best-score" : {
+                                                              "type" : "integer"
+                                                            },
+                                                            "last-attempt" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "lock" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "score" : {
+                                                              "type" : "integer"
+                                                            }
+                                                          },
+                                                          "additionalProperties" : false,
+                                                          "title" : " Assessment statistics return when quiz is terminated\n",
+                                                          "description" : "\n\\n"
+                                                        }
+                                                      },
+                                                      "additionalProperties" : false
+                                                    }
+                                                  },
+                                                  "load-method" : {
+                                                    "type" : "string",
+                                                    "enum" : [ "DATA", "COUNT" ]
+                                                  },
+                                                  "mode" : {
+                                                    "$ref" : "#/$defs/downloads/repository/json-schemas/apps/training-quiz/2.1.0/helm-values.json/$defs/Mode"
+                                                  },
+                                                  "quiz-id" : {
+                                                    "type" : "string"
+                                                  }
+                                                },
+                                                "additionalProperties" : false,
+                                                "title" : " Dataset for assessments collection in training-quiz\n",
+                                                "description" : "\n\\n"
+                                              },
+                                              "quiz" : {
+                                                "type" : "object",
+                                                "properties" : {
+                                                  "data" : {
+                                                    "type" : "array",
+                                                    "items" : {
+                                                      "type" : "object",
+                                                      "properties" : {
+                                                        "configuration" : {
+                                                          "type" : "object",
+                                                          "properties" : {
+                                                            "duration" : {
+                                                              "type" : "string"
+                                                            },
+                                                            "max-questions" : {
+                                                              "type" : "integer"
+                                                            },
+                                                            "shuffle" : {
+                                                              "type" : "boolean"
+                                                            },
+                                                            "total-questions" : {
+                                                              "type" : "integer",
+                                                              "title" : " Total number of questions assigned to a quiz\n",
+                                                              "description" : "\n\\n"
+                                                            }
+                                                          },
+                                                          "additionalProperties" : false
+                                                        },
+                                                        "description" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "id" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "module" : {
+                                                          "type" : "string"
+                                                        },
+                                                        "questions" : {
+                                                          "type" : "array",
+                                                          "items" : {
+                                                            "type" : "object",
+                                                            "properties" : {
+                                                              "answer-options" : {
+                                                                "type" : "array",
+                                                                "items" : {
+                                                                  "type" : "object",
+                                                                  "properties" : {
+                                                                    "id" : {
+                                                                      "type" : "string"
+                                                                    },
+                                                                    "label" : {
+                                                                      "type" : "string"
+                                                                    },
+                                                                    "valid" : {
+                                                                      "type" : "boolean"
+                                                                    }
+                                                                  },
+                                                                  "additionalProperties" : false
+                                                                }
+                                                              },
+                                                              "configuration" : {
+                                                                "type" : "object",
+                                                                "properties" : {
+                                                                  "code" : {
+                                                                    "type" : "boolean"
+                                                                  },
+                                                                  "duration" : {
+                                                                    "type" : "string"
+                                                                  },
+                                                                  "shuffle" : {
+                                                                    "type" : "boolean"
+                                                                  }
+                                                                },
+                                                                "additionalProperties" : false
+                                                              },
+                                                              "explanation" : {
+                                                                "type" : "string"
+                                                              },
+                                                              "id" : {
+                                                                "type" : "string"
+                                                              },
+                                                              "label" : {
+                                                                "type" : "string"
+                                                              },
+                                                              "level" : {
+                                                                "$ref" : "#/$defs/downloads/repository/json-schemas/apps/training-quiz/2.1.0/helm-values.json/$defs/SkillLevel"
+                                                              },
+                                                              "results" : {
+                                                                "type" : "array",
+                                                                "items" : {
+                                                                  "type" : "object",
+                                                                  "properties" : {
+                                                                    "id" : {
+                                                                      "type" : "string"
+                                                                    },
+                                                                    "status" : {
+                                                                      "type" : "string",
+                                                                      "enum" : [ "VALID", "WRONG", "MISSING" ]
+                                                                    }
+                                                                  },
+                                                                  "additionalProperties" : false
+                                                                },
+                                                                "title" : " Array containing the answer given by a user\n",
+                                                                "description" : "\n\\n"
+                                                              },
+                                                              "valid-percent" : {
+                                                                "type" : "integer",
+                                                                "title" : " Valid answer percentage\n",
+                                                                "description" : "\n\\n"
+                                                              }
+                                                            },
+                                                            "additionalProperties" : false
+                                                          }
+                                                        },
+                                                        "status" : {
+                                                          "$ref" : "#/$defs/downloads/repository/json-schemas/apps/training-quiz/2.1.0/helm-values.json/$defs/ReleaseStatus"
+                                                        }
+                                                      },
+                                                      "additionalProperties" : false
+                                                    }
+                                                  },
+                                                  "mode" : {
+                                                    "$ref" : "#/$defs/downloads/repository/json-schemas/apps/training-quiz/2.1.0/helm-values.json/$defs/Mode"
+                                                  }
+                                                },
+                                                "additionalProperties" : false
+                                              }
+                                            },
+                                            "additionalProperties" : false
+                                          },
+                                          "exit" : {
+                                            "properties" : {
+                                              "best-score" : {
+                                                "type" : "object",
+                                                "properties" : {
+                                                  "enabled" : {
+                                                    "type" : "boolean",
+                                                    "title" : " Enable exit point for computation of best score by REST API",
+                                                    "description" : "\n\\n When enabled, exit point for computation of best score is enabled in training-quiz. REST client [ExitClient] must be configured to call external custom microservice either with property `exit.service-name` or `exit.url`."
+                                                  }
+                                                },
+                                                "additionalProperties" : false,
+                                                "title" : " Exit point for computation of best score",
+                                                "description" : "\n\\n"
+                                              },
+                                              "service-name" : {
+                                                "type" : "string",
+                                                "title" : " Service name for exit points",
+                                                "description" : "\n\\n Property is used to configure service name in REST client [ExitClient]."
+                                              },
+                                              "url" : {
+                                                "type" : "string",
+                                                "title" : " Optional URL for exit points",
+                                                "description" : "\n\\n It allows to supersede service name in configuration of REST client [ExitClient]."
+                                              }
+                                            },
+                                            "additionalProperties" : false
+                                          }
+                                        },
+                                        "additionalProperties" : false
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+,
       "allOf" : [ {
         "$ref" : "#/$defs/downloads/repository/json-schemas/apps/training-quiz/2.1.0/helm-values.json"
       } ]
