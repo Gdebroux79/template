@@ -1,0 +1,316 @@
+service-aic-accounting-preintegration:
+  enabled: true
+  app:
+    name: service-aic-accounting-preintegration
+    group: service-aic-accounting-preintegration-group
+    version: service-aic-accounting-preintegration-v1
+    logType: sbs
+    kind: business
+    code: AIC
+    provisionedResources: # List infrastructure dependencies of the application
+      kafka:
+        enabled: true
+      mongodb:
+        enabled: true
+      s3:
+        enabled: true
+
+  argo:
+    enabled: false
+
+  job:
+    LOG_LEVEL_FILTER: WARN #FIXME To avoid having the sdl producing too much logs. See here : https://teams.microsoft.com/l/message/19:OdlH1I7lAuJV4kj5bSoyk4oKB7vU5ExOcwZ-d6JElSY1@thread.tacv2/1692197677307?tenantId=8b87af7d-8647-4dc7-8df4-5f69a2011bb5&groupId=0cc45397-33ce-4f91-91c1-92370fc3a4db&parentMessageId=1692197677307&teamName=PM2%20R%26D%20Environments&channelName=General&createdTime=1692197677307&allowXTenantAccess=false
+    SBCP_ANALYTICS_SPARK_APP_NAME: service-aic-accounting-preintegration
+
+    # KAFKA configuration
+    SBCP_ANALYTICS_TOPIC_NAME_AIC_ACCOUNTING_FER: aic-interest-calculation-financial-reports
+    SBCP_ANALYTICS_PARTITION_KEY_AIC_ACCOUNTING_FER: accountingEventContentData.applicationOperationReference
+    SBCP_ANALYTICS_TOPIC_NAME_INTEREST_CALCULATION_EVENT: aic-interest-calculation-events
+    SBCP_ANALYTICS_SPARK_READER_INTEREST_CALCULATION_EVENT: KafkaDatasetStreamReader://EnvKafkaConfiguration/INTEREST_CALCULATION_EVENT
+
+    # Variables to manage idempotency when reading OER from kafka topics
+    SBCP_ANALYTICS_DEDUPLICATION_ENABLED_INTEREST_CALCULATION_EVENT: "true"
+    SBCP_ANALYTICS_DEDUPLICATION_KEY_INTEREST_CALCULATION_EVENT: "value.interestCalculationId,value.status"
+
+    # MONGO configuration
+    SBCP_ANALYTICS_SPARK_READER_CUSTOMERS: MongoDatasetReader://EnvMongoConfiguration/CUSTOMERS
+    SBCP_ANALYTICS_SPARK_READER_CONTRACTS: MongoDatasetReader://EnvMongoConfiguration/CONTRACTS
+
+    ## MONGO database name
+    SBCP_ANALYTICS_MONGO_DATABASE: source-data-layer
+
+    ## Mongo collections name
+    SBCP_ANALYTICS_MONGO_COLLECTION_CUSTOMERS: CustomerRelationship
+    SBCP_ANALYTICS_MONGO_COLLECTION_CONTRACTS: Contract
+
+    ## Mongo BSON/JSON format configuration
+    SBCP_ANALYTICS_MONGO_USE_EXTENDED_JSON_CUSTOMERS: "false"
+    SBCP_ANALYTICS_MONGO_USE_EXTENDED_JSON_CONTRACTS: "false"
+
+    # SFLM Configuration
+    SBCP_ANALYTICS_FILE_PATH: aic-interest-fer
+    SBCP_ANALYTICS_SFLM_MODE: single
+    SBCP_ANALYTICS_ABAM_SCOPE: default-scope
+    SBCP_ANALYTICS_S3_REGION: eu-west-1
+    SBCP_ANALYTICS_FILE_GENERATOR: com.soprabanking.dxp.aic.accountingpreintegration.writer.TextFileGenerator
+
+  spark:
+    SPARK_K8S_IMAGE: 461232396433.dkr.ecr.eu-west-1.amazonaws.com/analytics/spark-cluster:4.7.1
+    JOB_PACKAGE: com.soprabanking.dxp.aic.accountingpreintegration
+    PROJECT_NAME: service-aic-accounting-pre-integration-data
+    JOB_ID: aic-interest-calculations-financial-reports
+    SPARK_EXECUTORS: "1"
+    REPO_PACKAGES: com.soprabanking.dxp:service-aic-accounting-preintegration:0.7.0
+
+  volumes:
+    spark:
+      enabled: false
+
+source-data-service-aic:
+  enabled: true
+  app:
+    name: source-data-service-aic
+    group: source-data-service-aic-group
+    version: source-data-service-aic-v1
+    logType: sbs
+    kind: business  # Possible  values: business, adapter, connector, auth, unknown
+    code: AIC # a code to identify the application component on max 5 chars
+    provisionedResources: # List infrastructure dependencies of the application
+      kafka:
+        enabled: true
+      mongodb:
+        enabled: true
+
+  argo:
+    enabled: false
+
+  job:
+    LOG_LEVEL_FILTER: WARN # To avoid having the sdl producing too much logs. See here : https://teams.microsoft.com/l/message/19:OdlH1I7lAuJV4kj5bSoyk4oKB7vU5ExOcwZ-d6JElSY1@thread.tacv2/1692197677307?tenantId=8b87af7d-8647-4dc7-8df4-5f69a2011bb5&groupId=0cc45397-33ce-4f91-91c1-92370fc3a4db&parentMessageId=1692197677307&teamName=PM2%20R%26D%20Environments&channelName=General&createdTime=1692197677307&allowXTenantAccess=false
+    SBCP_ANALYTICS_SPARK_APP_NAME: source-data-service-aic
+
+    # Variables to read OER from Kafka topics
+    SBCP_ANALYTICS_TOPIC_NAME_INTEREST_CALCULATION_EVENT: aic-interest-calculation-events
+    SBCP_ANALYTICS_SPARK_READER_INTEREST_CALCULATION_EVENT: KafkaDatasetStreamReader://EnvKafkaConfiguration/INTEREST_CALCULATION_EVENT
+    SBCP_ANALYTICS_TOPIC_NAME_INTEREST_SIMULATION_EVENT: aic-interest-calculation-simulation-events
+    SBCP_ANALYTICS_SPARK_READER_INTEREST_SIMULATION_EVENT: KafkaDatasetStreamReader://EnvKafkaConfiguration/INTEREST_SIMULATION_EVENT
+
+    # Variables to manage idempotency when reading OER from kafka topics
+    SBCP_ANALYTICS_DEDUPLICATION_ENABLED_INTEREST_SIMULATION_EVENT: "true"
+    SBCP_ANALYTICS_DEDUPLICATION_KEY_INTEREST_SIMULATION_EVENT: "value.interestCalculationId"
+
+    SBCP_ANALYTICS_DEDUPLICATION_ENABLED_INTEREST_CALCULATION_EVENT: "true"
+    SBCP_ANALYTICS_DEDUPLICATION_KEY_INTEREST_CALCULATION_EVENT: "value.interestCalculationId,value.status"
+
+    # Variables to write DER into Kafka topics
+    SBCP_ANALYTICS_TOPIC_NAME_AIC_DUE_INTEREST_DER: aic-due-interest-data
+    SBCP_ANALYTICS_TOPIC_NAME_AIC_NON_DUE_INTEREST_DER: aic-non-due-interest-data
+    SBCP_ANALYTICS_TOPIC_NAME_AIC_INTEREST_SIMULATION_DER: aic-simulation-interest-data
+    SBCP_ANALYTICS_PARTITION_KEY_AIC_DUE_INTEREST_DER: accountId
+    SBCP_ANALYTICS_PARTITION_KEY_AIC_NON_DUE_INTEREST_DER: accountId
+    SBCP_ANALYTICS_PARTITION_KEY_AIC_INTEREST_SIMULATION_DER: accountId
+    SBCP_ANALYTICS_KAFKA_SCHEMA_VERSION_AIC_DUE_INTEREST_DER: v1
+    SBCP_ANALYTICS_KAFKA_SCHEMA_VERSION_AIC_NON_DUE_INTEREST_DER: v1
+    SBCP_ANALYTICS_KAFKA_SCHEMA_VERSION_AIC_INTEREST_SIMULATION_DER: v1
+
+    # MONGO configuration
+    ## Mongo readers properties
+    SBCP_ANALYTICS_SPARK_READER_AIC_DUE_INTEREST_DATA: MongoDatasetReader://EnvMongoConfiguration/AIC_DUE_INTEREST_DATA
+
+    ## MONGO database name
+    SBCP_ANALYTICS_MONGO_DATABASE: source-data-layer
+
+    ## Variables to write to the SDL in MongoDB
+    SBCP_ANALYTICS_SPARK_WRITER_AIC_DUE_INTEREST_DATA: MongoDatasetWriter://EnvMongoConfiguration/AIC_DUE_INTEREST_DATA
+    SBCP_ANALYTICS_SPARK_WRITER_AIC_NON_DUE_INTEREST_DATA: MongoDatasetWriter://EnvMongoConfiguration/AIC_NON_DUE_INTEREST_DATA
+    SBCP_ANALYTICS_SPARK_WRITER_AIC_INTEREST_SIMULATION_DATA: MongoDatasetWriter://EnvMongoConfiguration/AIC_INTEREST_SIMULATION_DATA
+    SBCP_ANALYTICS_MONGO_COLLECTION_AIC_DUE_INTEREST_DATA: AccountDueInterest
+    SBCP_ANALYTICS_MONGO_COLLECTION_AIC_NON_DUE_INTEREST_DATA: AccountNonDueInterest
+    SBCP_ANALYTICS_MONGO_COLLECTION_AIC_INTEREST_SIMULATION_DATA: AccountSimulationInterest
+
+    ## Variables for historization of collections
+    HISTORIZATION_AIC_DUE_INTEREST_DATA: "true"
+    HISTORIZATION_AIC_NON_DUE_INTEREST_DATA: "true"
+    HISTORIZATION_AIC_INTEREST_SIMULATION_DATA: "true"
+
+    ## to ignore null values to write in mongoDB
+    SBCP_ANALYTICS_MONGO_IGNORE_NULL_VALUES_AIC_DUE_INTEREST_DATA: "true"
+    SBCP_ANALYTICS_MONGO_IGNORE_NULL_VALUES_AIC_NON_DUE_INTEREST_DATA: "true"
+    SBCP_ANALYTICS_MONGO_IGNORE_NULL_VALUES_AIC_INTEREST_SIMULATION_DATA: "true"
+
+  spark:
+    SPARK_K8S_IMAGE: 461232396433.dkr.ecr.eu-west-1.amazonaws.com/analytics/spark-cluster:4.7.1
+    JOB_PACKAGE: com.soprabanking.dxp.aic.sds
+    PROJECT_NAME: source-data-service-aic
+    JOB_ID: aic-sds
+    SPARK_EXECUTORS: "1"
+    REPO_PACKAGES: com.soprabanking.dxp:aic-source-data-service:0.9.0
+
+  volumes:
+    spark:
+      enabled: false
+
+init-source-data-service-aic:
+  sbcp-batch:
+    workflow:
+      enabled: false
+    app:
+      name: init-source-data-service-aic
+      group: source-data-service-aic-group
+      version: source-data-service-aic-v1
+      logType: sbs
+      kind: business
+      code: AIC
+      dependencies: # List infrastructure dependencies of the application
+        mongodb: true
+      properties:
+        extraConfigMaps:
+          init-source-data-service-aic-v1:
+            enabled: true
+            optional: true
+    image:
+      version: 4.6.1 # spark-cluster version for sbcp-spark-batch
+  spark:
+    SPARK_K8S_IMAGE: 461232396433.dkr.ecr.eu-west-1.amazonaws.com/analytics/spark-cluster:4.6.1
+    JOB_PACKAGE: com.soprabanking.dxp.aic.sds
+    SPARK_EXECUTORS: "1"
+    JOB_ID: "init-aic-sds"
+    PROJECT_NAME: "init-source-data-service-aic"
+    REPO_PACKAGES: com.soprabanking.dxp:aic-source-data-service:0.9.0
+  job:
+    SBCP_ANALYTICS_MONGO_IGNORE_NULL_VALUES_AIC_DUE_INTEREST_DATA: "true"
+    SBCP_ANALYTICS_MONGO_IGNORE_NULL_VALUES_AIC_NON_DUE_INTEREST_DATA: "true"
+    SBCP_ANALYTICS_MONGO_IGNORE_NULL_VALUES_AIC_INTEREST_SIMULATION_DATA: "true"
+    SBCP_ANALYTICS_SPARK_READER_AIC_INIT_JOB: "JsonFileDatasetReader://EnvFileConfiguration/AIC_INIT_JOB"
+    SBCP_ANALYTICS_LOCAL_FILEPATH_AIC_INIT_JOB: "../../../../../init-source-data-service-aic-v1.yml"
+    SBCP_ANALYTICS_MONGO_DATABASE: source-data-layer
+    SBCP_ANALYTICS_SPARK_READER_AIC_NON_DUE_INTEREST_DATA: MongoDatasetReader://EnvMongoConfiguration/AIC_NON_DUE_INTEREST_DATA
+    SBCP_ANALYTICS_SPARK_READER_AIC_DUE_INTEREST_DATA: MongoDatasetReader://EnvMongoConfiguration/AIC_DUE_INTEREST_DATA
+    SBCP_ANALYTICS_SPARK_READER_AIC_INTEREST_SIMULATION_DATA: MongoDatasetReader://EnvMongoConfiguration/AIC_INTEREST_SIMULATION_DATA
+    SBCP_ANALYTICS_SPARK_WRITER_AIC_NON_DUE_INTEREST_DATA: MongoDatasetWriter://EnvMongoConfiguration/AIC_NON_DUE_INTEREST_DATA
+    SBCP_ANALYTICS_SPARK_WRITER_AIC_DUE_INTEREST_DATA: MongoDatasetWriter://EnvMongoConfiguration/AIC_DUE_INTEREST_DATA
+    SBCP_ANALYTICS_SPARK_WRITER_AIC_INTEREST_SIMULATION_DATA: MongoDatasetWriter://EnvMongoConfiguration/AIC_INTEREST_SIMULATION_DATA
+    SBCP_ANALYTICS_MONGO_COLLECTION_AIC_DUE_INTEREST_DATA: AccountDueInterest
+    SBCP_ANALYTICS_MONGO_COLLECTION_AIC_NON_DUE_INTEREST_DATA: AccountNonDueInterest
+    SBCP_ANALYTICS_MONGO_COLLECTION_AIC_INTEREST_SIMULATION_DATA: AccountSimulationInterest
+  volumes:
+    spark:
+      enabled: false
+
+
+ui-account-interest-calculation:
+  enabled: true
+
+service-account-interest-calculation:
+  enabled: true
+
+service-aic-cash-pooling:
+  enabled: true
+
+interest-calculation-batch-trigger:
+  enabled: true
+  sbcp-batch:
+    workflow:
+      resources:
+        limits:
+          cpu: '4'
+          memory: 2Gi
+        requests:
+          cpu: 500m
+          memory: 1Gi
+    app:
+      code: AIC
+      name: aic-initiate-interest-calculations
+      properties:
+        extraConfigMaps:
+          interest-calculation-batch-trigger-v1:
+            enabled: true
+
+interest-simulation-batch-trigger:
+  enabled: true
+  sbcp-batch:
+    app:
+      code: AIC
+      name: aic-initiate-interest-simulations
+      properties:
+        extraConfigMaps:
+          interest-simulation-batch-trigger-v1:
+            enabled: true
+
+aic-initiate-pooling-contracts:
+  enabled: true
+  sbcp-batch:
+    app:
+      code: AIC
+      name: aic-initiate-pooling-contracts
+      properties:
+        extraConfigMaps:
+          aic-initiate-pooling-contracts-v1:
+            enabled: true
+
+sbcp-spring-configuration:
+  configMaps:
+    interest-calculation-batch-trigger-v1:
+      enabled: true
+    interest-simulation-batch-trigger-v1:
+      enabled: true
+    aic-initiate-pooling-contracts-v1:
+      enabled: true
+
+global:
+  defaultApiContractVersion: 1.0
+  spring:
+    configMaps:
+      interest-calculation-batch-trigger-v1:
+        customization:
+          kafka:
+            consumer:
+              retries:
+                number: 3
+          batch:
+            error:
+              threshold-max-number: 0
+              threshold-max-percentage: 0
+              threshold-min-operations: 100
+            topics:
+              batch-trigger: aic-initiate-interest-calculations
+              batch-trigger-processed: aic-initiate-interest-calculations-processed
+              batch-operation-processed: aic-create-interest-calculation-processed
+              batch-cancellation: aic-cancel-interest-calculation
+            headers:
+              application-service-code: INITIATE-INTEREST-CALCULATIONS
+      interest-simulation-batch-trigger-v1:
+        customization:
+          kafka:
+            consumer:
+              retries:
+                number: 3
+          batch:
+            error:
+              threshold-max-number: 0
+              threshold-max-percentage: 0
+              threshold-min-operations: 100
+            topics:
+              batch-trigger: aic-initiate-interest-simulations
+              batch-trigger-processed: aic-initiate-interest-simulations-processed
+              batch-operation-processed: aic-execute-interest-simulation-processed
+              batch-cancellation: aic-cancel-interest-simulation
+            headers:
+              application-service-code: INITIATE-INTEREST-SIMULATIONS
+      aic-initiate-pooling-contracts-v1:
+        customization:
+          kafka:
+            consumer:
+              retries:
+                number: 3
+          batch:
+            error:
+              threshold-max-number: 0
+              threshold-max-percentage: 0
+              threshold-min-operations: 100
+            topics:
+              batch-trigger: aic-initiate-pooling-contracts
+              batch-trigger-processed: aic-initiate-pooling-contracts-processed
+              batch-operation-processed: aic-execute-pooling-contracts-processed
+              batch-cancellation: aic-cancel-pooling-contracts
+            headers:
+              application-service-code: INITIATE-POOLING-CONTRACTS

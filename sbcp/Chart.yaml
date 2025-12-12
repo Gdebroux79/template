@@ -1,0 +1,8 @@
+apiVersion: v2
+version: 0.0.0 # set by pipeline
+description: AIC delivery bundle
+name: aic
+
+dependencies:
+
+  
