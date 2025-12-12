@@ -50,6 +50,7 @@
                                                 "properties" : {
                                                   "initial" : {
                                                     "type" : "string"
+
                                                   },
                                                   "max" : {
                                                     "type" : "string"
@@ -498,9 +499,11 @@
                                         "description" : "\n\\n",
                                         "properties" : {
                                           "assessment" : {
+                                            
                                             "properties" : {
                                               "back-off" : {
                                                 "type" : "object",
+                                                "required": ["initial", "max"],
                                                 "properties" : {
                                                   "initial" : {
                                                     "type" : "string"
